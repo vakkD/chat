@@ -1,5 +1,4 @@
 __version__ = 'dev'
-print('test')
 
 import os
 import sys
