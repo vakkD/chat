@@ -8,4 +8,4 @@ and run by calling 'chat' in terminal
 
 
 pyinstaller:
-C:\Users\dylan\AppData\Local\Programs\Python\Python310\Scripts\pyinstaller.exe" --onefile --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext --hidden-import=termcolor --hidden-import=revchatgpt chat.py
+C:\Users\dylan\AppData\Local\Programs\Python\Python310\Scripts\pyinstaller.exe --onefile --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext --hidden-import=termcolor --hidden-import=revchatgpt chat.py
