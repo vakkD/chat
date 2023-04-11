@@ -1,3 +1,6 @@
+#add settings (auto multi)
+#able to use function in another, call multi from plag (put get input into a function) 
+
 __version__ = 'dev'
 
 import os
@@ -80,6 +83,7 @@ Please limit your responses to the specific information requested and avoid prov
         while not message[-1] == '*':
             message += ('\n' +
                         str(input(f"{colored('input: ', color='white', attrs=['bold'])}")))
+                        #str(get_input()))
         message = message[:-1]
         return True
 
@@ -94,6 +98,23 @@ def clear_lines(lines_to_clear):
         sys.stdout.write('\x1b[2K')  # Clear the line
     sys.stdout.flush()  # Flush the output buffer to ensure the changes are displayed
 
+def get_input(multi=False):
+    message = input(f"{colored('input: ', color='white', attrs=['bold'])}")
+    # if multi==True:
+    #     return message
+    if message.startswith('--'):
+        # passes a slice of the message string, starting from the 3rd character
+        if functions(message[2:]):
+            return message
+        else:
+            return False
+    elif message.startswith('-'):
+        print(colored('warning: functions have two dashes, --',
+              color='white', attrs=['bold']))
+    elif not message:
+        print(colored('message is empty', color='white', attrs=['bold']))
+        return False
+    logging.info(f'INPUT: {message}')
 
 print('connecting')
 chat = Chatbot(api_key=os.getenv("OPENAI_API_KEY"))
@@ -101,20 +122,10 @@ clear_lines(1)
 
 while True:
     output = ''
-    message = input(f"{colored('input: ', color='white', attrs=['bold'])}")
-    if message.startswith('--'):
-        # passes a slice of the message string, starting from the 3rd character
-        if functions(message[2:]):
-            pass
-        else:
-            continue
-    elif message.startswith('-'):
-        print(colored('warning: functions have two dashes, --',
-              color='white', attrs=['bold']))
-    elif not message:
-        print(colored('message is empty', color='white', attrs=['bold']))
-        continue
-    logging.info(f'INPUT: {message}')
+    message=get_input()
+    
+    if message==False:
+        continue 
 
     print(colored('output: ', color='white', attrs=['bold']), end='')
     try:
