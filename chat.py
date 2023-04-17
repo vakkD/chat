@@ -66,7 +66,7 @@ dict = {
     "stop output": {"description": "ctrl+c", "functions": []},
 }
 
-settings={'stream': False}
+settings={'stream': True}
 
 class Spinner:
     __default_spinner_symbols_list = ['|-----|', '|#----|', '|-#---|', '|--#--|', '|---#-|', '|----#|']
@@ -224,26 +224,20 @@ while True:
         cprint("\nuse --exit to close", "white", "on_red", attrs=["bold"])
         continue
 
-    if settings['stream']==True:    
-        try:
+    try:
+        if settings['stream']==True:    
             cprint("output: ", "red", attrs=["bold"], end="")
             for data in chat.ask_stream(message):
                 print(data, end="", flush=True)
                 output += str(data)
-            logging.info(f"OUTPUT: {output}\n")
-            print("")
-        except KeyboardInterrupt:
-            cprint("\noutput interupted by user", "white", "on_red", attrs=["bold"])
-            logging.info(f"OUTPUT: {output}\nOUTPUT INTERUPTED BY USER\n")
-    else:
-        try:
+        else:
             spinner.start('generating response')
             reponse=chat.ask(message)
             output += str(reponse)
             spinner.stop()
             cprint("output: ", "red", attrs=["bold"], end="")
             print(reponse)
-            logging.info(f"OUTPUT: {output}\n")
-        except KeyboardInterrupt:
-            cprint("\noutput interupted by user", "white", "on_red", attrs=["bold"])
-            logging.info(f"OUTPUT: {output}\nOUTPUT INTERUPTED BY USER\n")
+        logging.info(f"OUTPUT: {output}\n")
+    except KeyboardInterrupt:
+        cprint("\noutput interupted by user", "white", "on_red", attrs=["bold"])
+        logging.info(f"OUTPUT: {output}\nOUTPUT INTERUPTED BY USER\n")
